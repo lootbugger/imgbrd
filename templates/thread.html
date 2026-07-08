@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ post.title or 'Thread' }} - /{{ board.name }}/</title>
+  <script src="https://unpkg.com/htmx.org@2"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2/dist/simple-lightbox.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/simplelightbox@2/dist/simple-lightbox.min.js"></script>
+</head>
+<body>
+  <h1>/{{ board.name }}/</h1>
+  <p><a href="/boards/{{ board.id }}/posts">Back</a></p>
+  <div>
+    <span>{{ post.name or ("#" + post.display_id) }}</span>
+    {% if post.title %}
+    <strong>{{ post.title }}</strong>
+    {% endif %}
+    <span>{{ post.created_at }}</span>
+    <button hx-delete="/boards/{{ post.board_id }}/posts/{{ post.id }}"
+            hx-target="closest div"
+            hx-swap="delete"
+            hx-confirm="Delete this post?">Delete</button>
+    <p>{{ post.body }}</p>
+    <div class="gallery">
+    {% for image in post.images %}
+    {% include "_file.html" %}
+    {% endfor %}
+    </div>
+  </div>
+  <h3>Replies</h3>
+  <div id="replies">
+  {% for reply in replies %}
+  <div>
+    <span>{{ reply.name or ("#" + reply.display_id) }}</span>
+    <span>{{ reply.created_at }}</span>
+    <button hx-delete="/boards/{{ reply.board_id }}/posts/{{ reply.id }}"
+            hx-target="closest div"
+            hx-swap="delete"
+            hx-confirm="Delete this post?">Delete</button>
+    <p>{{ reply.body }}</p>
+    <div class="gallery">
+    {% for image in reply.images %}
+    {% include "_file.html" %}
+    {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+  <button onclick="this.nextElementSibling.hidden = !this.nextElementSibling.hidden">Reply</button>
+  <form hidden hx-post="/boards/{{ board.id }}/posts/{{ post.id }}/reply"
+        hx-target="#replies"
+        hx-swap="beforeend"
+        hx-encoding="multipart/form-data"
+        hx-on::after-request="this.reset()"
+        enctype="multipart/form-data">
+    <input name="name" placeholder="Name (optional)">
+    <textarea name="body" placeholder="Reply" required></textarea>
+    <input name="files" type="file" multiple>
+    <button type="submit">Reply</button>
+  </form>
+  <script>var _lb=new SimpleLightbox('.gallery a');document.body.addEventListener('htmx:afterSwap',function(){_lb.destroy();_lb=new SimpleLightbox('.gallery a')});</script>
+</body>
+</html>

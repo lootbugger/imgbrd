@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ board.name }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2/dist/simple-lightbox.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/simplelightbox@2/dist/simple-lightbox.min.js"></script>
+</head>
+<body>
+  <h1>/{{ board.name }}/</h1>
+  <p>{{ board.description }}</p>
+  <p><a href="/boards">All boards</a></p>
+  <button onclick="this.nextElementSibling.hidden=!this.nextElementSibling.hidden">New Post</button>
+  <form hidden method="post" action="/boards/{{ board.id }}/posts" enctype="multipart/form-data">
+    <input name="name" placeholder="Name (optional)">
+    <input name="title" placeholder="Title">
+    <textarea name="body" placeholder="Body"></textarea>
+    <input name="files" type="file" multiple>
+    <button type="submit">Submit</button>
+  </form>
+  {% for post in posts %}
+  <div id="post">
+    <span>{{ post.name or ("#" + post.display_id) }}</span>
+    {% if post.title %}
+    <strong><a href="/boards/{{ board.id }}/posts/{{ post.id }}">{{ post.title }}</a></strong>
+    {% endif %}
+    <span>{{ post.created_at }}</span>
+    <button hx-delete="/boards/{{ post.board_id }}/posts/{{ post.id }}"
+            hx-target="closest div"
+            hx-swap="delete"
+            hx-confirm="Delete this post?">Delete</button>
+    <p>{{ post.body }}</p>
+    <div class="gallery">
+    {% for image in post.images %}
+    {% set max_size = 150 %}{% include "_file.html" %}
+    {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+  <script>new SimpleLightbox('.gallery a');</script>
+</body>
+</html>

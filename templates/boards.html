@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>Boards</title></head>
+<body>
+  <h1>Boards</h1>
+  <button onclick="this.nextElementSibling.hidden=!this.nextElementSibling.hidden">Create Board</button>
+  <form hidden method="post" action="/boards" onsubmit="event.preventDefault(); fetch('/boards',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:this.name.value,description:this.description.value})}).then(()=>location.reload())">
+    <input name="name" placeholder="Name" required>
+    <input name="description" placeholder="Description">
+    <button type="submit">Submit</button>
+  </form>
+  <ul>
+    {% for board in boards %}
+    <li><a href="/boards/{{ board.id }}/posts">{{ board.name }}</a> - {{ board.description }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

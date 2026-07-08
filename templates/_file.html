@@ -1,0 +1,11 @@
+{% set ext = image.filename.rsplit('.', 1)[-1].lower() %}
+{% set url = "/uploads/" + image.filename %}
+{% if ext in ('jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg') %}
+<a href="{{ url }}" class="gallery-item"><img src="{{ url }}" alt="{{ image.original_name }}" style="max-width:{{ max_size | default(300) }}px;max-height:{{ max_size | default(300) }}px"></a>
+{% elif ext in ('mp4', 'webm', 'mov', 'avi', 'mkv') %}
+<video src="{{ url }}" controls style="max-width:{{ max_size | default(300) }}px;max-height:{{ max_size | default(300) }}px"></video>
+{% elif ext in ('mp3', 'ogg', 'wav', 'flac', 'aac') %}
+<audio src="{{ url }}" controls></audio>
+{% else %}
+<a href="{{ url }}" download>{{ image.original_name }}</a>
+{% endif %}
