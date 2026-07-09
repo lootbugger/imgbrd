@@ -1,0 +1,30 @@
+<div id="post-{{ post.id }}" class="post glass">
+  <div class="post-info glass">
+  <span>#{{ post.id }} {{ post.display_id }}{% if post.name %} {{ post.name }}{% endif %}</span>
+  <span>{{ post.created_at }}</span>
+  </div>
+  <div class="content glass">
+  {% if post.title %}
+  <p class="title"><strong>{% if title_link %}<a href="/boards/{{ post.board_id }}/posts/{{ post.id }}">{% endif %}{{ post.title }}{% if title_link %}</a>{% endif %}</strong></p>
+  {% endif %}
+  {% if post.parent_id %}
+  <a href="#post-{{ post.parent_id }}">>>{{ post.parent_id }}</a>
+  {% endif %}
+  {% if post.deleted %}
+  <p><em>[post was deleted by {{ post.deleted_by or 'unknown' }}]</em></p>
+  {% else %}
+  <p>{{ post.body }}</p>
+  <div class="gallery">
+  {% for image in post.images %}
+  {% include "_file.html" %}
+  {% endfor %}
+  </div>
+  {% endif %}
+  </div>
+  <button class="glass" hx-delete="/boards/{{ post.board_id }}/posts/{{ post.id }}"
+          hx-target="closest div" hx-swap="outerHTML"
+          hx-confirm="Delete this post?">Delete</button>
+  {% if not no_reply_form %}
+  {% set board_id = post.board_id %}{% set post_id = post.id %}{% include "_reply_form.html" %}
+  {% endif %}
+</div>

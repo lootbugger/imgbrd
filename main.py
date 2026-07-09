@@ -16,6 +16,7 @@ from schemas import BoardIn, BoardOut, PostOut
 app = FastAPI()
 
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
@@ -196,7 +197,7 @@ async def reply_to_post(
     await save_files(session, db_post, files)
     session.commit()
     session.refresh(db_post)
-    return templates.TemplateResponse(request, "_reply.html", {"reply": db_post})
+    return templates.TemplateResponse(request, "_post.html", {"post": db_post})
 
 
 @app.delete("/boards/{board_id}/posts/{post_id}")
@@ -226,4 +227,4 @@ def delete_post(
         return resp
     session.commit()
     session.refresh(post)
-    return templates.TemplateResponse(request, "_reply.html", {"reply": post})
+    return templates.TemplateResponse(request, "_post.html", {"post": post})

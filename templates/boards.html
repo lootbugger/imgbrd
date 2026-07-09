@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head><title>Boards</title></head>
+<head>
+  <title>Boards</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-  <h1>Boards</h1>
-  <button onclick="this.nextElementSibling.hidden=!this.nextElementSibling.hidden">Create Board</button>
-  <form hidden method="post" action="/boards" onsubmit="event.preventDefault(); fetch('/boards',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:this.name.value,description:this.description.value})}).then(()=>location.reload())">
-    <input name="name" placeholder="Name" required>
-    <input name="description" placeholder="Description">
-    <button type="submit">Submit</button>
-  </form>
-  <ul>
-    {% for board in boards %}
-    <li><a href="/boards/{{ board.id }}/posts">{{ board.name }}</a> - {{ board.description }}</li>
-    {% endfor %}
-  </ul>
+  <div class="container glass">
+    <header class="glass">
+      <div class="header-text glass">
+        <h1>Boards</h1>
+      </div>
+      <button class="glass" onclick="this.nextElementSibling.hidden=!this.nextElementSibling.hidden">Create Board</button>
+      <form class="create-board-form glass" hidden method="post" action="/boards" onsubmit="event.preventDefault(); fetch('/boards',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:this.name.value,description:this.description.value})}).then(()=>location.reload())">
+        <input name="name" placeholder="Name" required>
+        <input name="description" placeholder="Description">
+        <button type="submit" class="glass">Submit</button>
+      </form>
+    </header>
+    <div class="boards-list glass">
+      {% for board in boards %}
+      {% include "_board.html" %}
+      {% endfor %}
+    </div>
+  </div>
 </body>
 </html>

@@ -30,7 +30,6 @@ class Post(Base):
     display_id: Mapped[str | None] = mapped_column(nullable=True)
     poster_token: Mapped[str | None] = mapped_column(nullable=True)
     thread_id: Mapped[int | None] = mapped_column(nullable=True)
-
     deleted: Mapped[bool] = mapped_column(default=False)
     deleted_by: Mapped[str | None] = mapped_column(nullable=True)
 

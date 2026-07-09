@@ -1,0 +1,12 @@
+<button class="glass" onclick="this.nextElementSibling.hidden=!this.nextElementSibling.hidden">Reply</button>
+<form class="reply-form glass" hidden hx-post="/boards/{{ board_id }}/posts/{{ post_id }}/reply"
+      hx-target="#replies"
+      hx-swap="beforeend"
+      hx-encoding="multipart/form-data"
+      hx-on::after-request="this.reset();this.hidden=true"
+      enctype="multipart/form-data">
+  <input name="name" placeholder="Name (optional)">
+  <textarea name="body" placeholder="Reply" required></textarea>
+  <input name="files" type="file" multiple>
+  <button type="submit" class="submit-button glass">Submit</button>
+</form>
