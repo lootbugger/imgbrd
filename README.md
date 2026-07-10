@@ -61,9 +61,13 @@ imgbrd/
 │   ├── boards.html      # List of all boards
 │   ├── board_posts.html # Thread listing for a board
 │   ├── thread.html      # Thread view with replies
-│   ├── _reply.html      # HTMX fragment for a single reply
+│   ├── _board.html      # Board card partial
+│   ├── _post.html       # Post/reply partial (OP and replies)
+│   ├── _reply_form.html # HTMX reply form fragment
 │   ├── _file.html       # File type detection and rendering
 │   └── 404.html         # Custom 404 page
+├── static/              # Static assets
+│   └── style.css        # Styles
 └── uploads/             # Uploaded files directory
 ```
 
