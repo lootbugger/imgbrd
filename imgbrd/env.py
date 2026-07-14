@@ -1,5 +1,8 @@
-from models import Base, Board, Post, Image
 from logging.config import fileConfig
+
+from src.database import Base
+import src.boards.models
+import src.posts.models
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool

@@ -1,7 +1,11 @@
 from fastapi import Depends
 from typing import Annotated
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session, DeclarativeBase
 from sqlalchemy import create_engine
+
+
+class Base(DeclarativeBase):
+    pass
 
 
 sqlite_file_name = "database.db"

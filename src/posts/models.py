@@ -1,18 +1,8 @@
 import datetime
 from sqlalchemy import ForeignKey, func, DateTime
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-
-class Base(DeclarativeBase):
-    pass
-
-
-class Board(Base):
-    __tablename__ = "boards"
-
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str]
-    description: Mapped[str | None] = mapped_column(nullable=True)
+from src.database import Base
 
 
 class Post(Base):
@@ -33,7 +23,7 @@ class Post(Base):
     deleted: Mapped[bool] = mapped_column(default=False)
     deleted_by: Mapped[str | None] = mapped_column(nullable=True)
 
-    images: Mapped[list[Image]] = relationship(back_populates="post")
+    images: Mapped[list["Image"]] = relationship(back_populates="post")
 
 
 class Image(Base):

@@ -2,17 +2,6 @@ import datetime
 from pydantic import BaseModel, computed_field, model_validator
 
 
-class BoardIn(BaseModel):
-    name: str
-    description: str | None = None
-
-
-class BoardOut(BoardIn):
-    id: int
-
-    model_config = {"from_attributes": True}
-
-
 class ImageOut(BaseModel):
     id: int
     post_id: int
