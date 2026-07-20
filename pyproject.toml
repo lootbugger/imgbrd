@@ -12,3 +12,12 @@ dependencies = [
     "sqlalchemy>=2.0.51",
     "uvicorn>=0.50.2",
 ]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "httpx>=0.28"]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
+]
